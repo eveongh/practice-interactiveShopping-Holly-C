@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping List</title>
+</head>
+<body>
+    <h1>Shopping List</h1>
+
+    <div class = "container">
+        <label for="itemInput">🛒 My Cart:</label>
+        <div class = "input-row">
+          <input type="text" id="itemInput" placeholder="Add an item...">
+    <!--Add button-->
+         <button id="addBtn">➕</button>
+         </div>
+    <!--Unordered list-->
+        <ul>
+
+        </ul>
+    <!--JavaScript | Add & Delete, Edit Text -->
+        <script>
+            //grabbing the elements from the page
+            const list = document.querySelector(`ul`);
+            const input = document.querySelector(`input`);
+            const button = document.querySelector(`button`);
+            //on click this function will run
+            button.onclick = function () {
+                //get what the user typed
+                let newItem = input.value;
+                //clear the textbox
+                input.value ='';
+                //create new HTML elements
+                let itemList = document.createElement('li');
+                let itemText = document.createElement('span');
+                let itemBtn = document.createElement('button');
+              
+                //add content to those elements 
+                itemBtn.textContent = '❌'; //delete button 
+                itemText.textContent = newItem;
+
+                //put the button and text in the list item
+                itemList.appendChild(itemBtn);
+                itemList.appendChild(itemText);
+                
+                //put the list item into the unordered list
+                list.appendChild(itemList);
+
+                //on click this will apply to the delete button 
+                itemBtn.onclick = function () {
+                    list.removeChild(itemList);
+                }
+                //puts the cursor back in the text box 
+                input.focus();
+        //on click, this code will run 
+            itemText.onclick = function () {
+            //create a new text box/<input>
+                let editInput = document.createElement('input');
+            //make it a text input
+                editInput.type = 'text';
+            //copy the current text. .trim() to remove extra spaces. 
+                editInput.value = itemText.textContent.trim();
+            //replaceChild = replace itemText with editInput
+                itemList.replaceChild(editInput,itemText);
+        
+                editInput.focus();
+
+            //wait for the user to leave the box
+                editInput.onblur = function () {
+                //save the new text 
+                    itemText.textContent = ' ' + editInput.value;
+                //put it back 
+                    itemList.replaceChild(itemText,editInput);
+                 }
+                }
+            }
+        </script>
+    </div>
+
+</body>
+</html>
